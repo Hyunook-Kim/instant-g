@@ -16,9 +16,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={openSans.className}>
-        <header>
+    <html lang="en" className={openSans.className}>
+      <body className={"max-w-sreen-xl mx-auto w-full overflow-auto"}>
+        <header className="border-10 sticky top-0 z-10 border-b bg-white">
           <Navbar />
         </header>
         <main>{children}</main>
