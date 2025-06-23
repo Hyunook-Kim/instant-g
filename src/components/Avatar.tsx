@@ -15,7 +15,7 @@ export default function Avatar({
     <div className={getContainerStyle(size, highlight)}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        className={`rounded-full bg-white ${getImageSizeStyle(size)}`}
+        className={`rounded-full bg-white object-cover ${getImageSizeStyle(size)}`}
         alt="user profile"
         src={image ?? undefined}
         referrerPolicy="no-referrer" // Prevents referrer information from being sent, 이미지에 외부 링크 사용시, 엑스박스 문제 방지

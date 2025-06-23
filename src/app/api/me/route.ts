@@ -6,7 +6,6 @@ import { getUserByUsername } from "@/service/user";
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   const user = session?.user;
-  console.log("user", user);
   if (!user) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
