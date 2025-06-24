@@ -32,7 +32,7 @@ export default function Navbar() {
         <h1 className="text-3xl font-bold">Instant</h1>
       </Link>
       <nav>
-        <ul className="flex items-center gap-4">
+        <ul className="flex items-center gap-4 p-4">
           {menus.map((menu) => (
             <li key={menu.href}>
               <Link href={menu.href}>
