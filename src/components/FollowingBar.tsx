@@ -5,6 +5,7 @@ import React from "react";
 import { PropagateLoader } from "react-spinners";
 import useSWR from "swr";
 import Avatar from "./Avatar";
+import ScrollableBar from "./ui/ScrollableBar";
 
 export default function FollowingBar() {
   const { data, isLoading, error } = useSWR<DetailUser>("/api/me");
@@ -26,21 +27,20 @@ export default function FollowingBar() {
         )
       )}
       {followingUsers && followingUsers.length > 0 && (
-        <ul className="flex w-full gap-2">
+        <ScrollableBar>
           {followingUsers.map((user) => (
-            <li key={user.username}>
-              <Link
-                className="flex w-20 flex-col items-center"
-                href={`/user/${user.username}`}
-              >
-                <Avatar image={user.image} />
-                <p className="w-full overflow-hidden text-ellipsis text-center text-sm">
-                  {user.username}
-                </p>
-              </Link>
-            </li>
+            <Link
+              key={user.username}
+              className="flex w-20 flex-col items-center"
+              href={`/user/${user.username}`}
+            >
+              <Avatar image={user.image} />
+              <p className="w-full overflow-hidden text-ellipsis text-center text-sm">
+                {user.username}
+              </p>
+            </Link>
           ))}
-        </ul>
+        </ScrollableBar>
       )}
     </section>
   );
