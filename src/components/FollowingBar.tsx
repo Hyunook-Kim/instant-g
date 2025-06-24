@@ -9,9 +9,15 @@ import Avatar from "./Avatar";
 export default function FollowingBar() {
   const { data, isLoading, error } = useSWR<DetailUser>("/api/me");
   const followingUsers = data?.following;
+  // const followingUsers = undefined;
+  // const followingUsers = data?.following && [
+  //   ...data?.following,
+  //   ...data?.following,
+  //   ...data?.following,
+  // ];
 
   return (
-    <section>
+    <section className="mb-4 flex min-h-[90px] w-full items-center justify-center overflow-x-auto rounded-lg p-4 shadow-sm shadow-neutral-300">
       {isLoading ? (
         <PropagateLoader size={8} color="red" />
       ) : (
@@ -20,12 +26,17 @@ export default function FollowingBar() {
         )
       )}
       {followingUsers && followingUsers.length > 0 && (
-        <ul>
+        <ul className="flex w-full gap-2">
           {followingUsers.map((user) => (
             <li key={user.username}>
-              <Link href={`/user/${user.username}`}>
+              <Link
+                className="flex w-20 flex-col items-center"
+                href={`/user/${user.username}`}
+              >
                 <Avatar image={user.image} />
-                <p>{user.username}</p>
+                <p className="w-full overflow-hidden text-ellipsis text-center text-sm">
+                  {user.username}
+                </p>
               </Link>
             </li>
           ))}
