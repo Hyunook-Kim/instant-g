@@ -8,3 +8,38 @@ body {
   overflow-x: hidden;
   height: 100vh;
 }
+
+/*
+  TODO: "next-route-announcer" Issue Report
+  특정 뷰포트 영역에서 next-route-announcer 태그의 레이아웃 영향을 받아 
+  [의도치 않은 스크롤바 및 하단 빈공간이 생기는 이슈] 해결을 위한 코드
+  추후 레이아웃 이슈 해결 시 삭제 예정
+  임시 해결 방안 설정은 아래 내용과 같다.
+
+  next-route-announcer {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  pointer-events: none !important;
+} 
+*/
+
+/* or */
+
+/* body > next-route-announcer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+} */
