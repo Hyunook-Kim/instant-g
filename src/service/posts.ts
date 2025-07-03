@@ -1,4 +1,5 @@
-import { client } from "./sanity";
+import { SimplePost } from "@/models/post";
+import { client, urlFor } from "./sanity";
 
 // TODO: "comments"는 현재페이지에 로그인사용자 comment도 포함인걸로알고는데, 이거 -1해야되는거 아닌지 확인
 const simplePostProjection = `
@@ -14,23 +15,33 @@ const simplePostProjection = `
 `;
 
 export async function getFollowingPostsOf(username: string) {
-  return client.fetch(`
+  return client
+    .fetch(
+      `
     *[_type == "post" && author->username == "${username}" 
       || author._ref in *[_type == "user" && username == "${username}"][0]
          .following[]._ref]
       | order(_createdAt desc){${simplePostProjection}}
-    `);
+    `,
+    )
+    .then((posts) =>
+      posts.map((post: SimplePost) => ({
+        ...post,
+        image: urlFor(post.image),
+      })),
+    );
 }
 
-export async function getFollowingPostsRawOf(username: string) {
-  return client.fetch(`
-    *[_type == "post" && author->username == "${username}" 
-      || author._ref in *[_type == "user" && username == "${username}"][0]
-         .following[]._ref]
-      | order(_createdAt desc)
-    `);
-}
+// export async function getFollowingPostsRawOf(username: string) {
+//   return client.fetch(`
+//     *[_type == "post" && author->username == "${username}"
+//       || author._ref in *[_type == "user" && username == "${username}"][0]
+//          .following[]._ref]
+//       | order(_createdAt desc)
+//     `);
+// }
 
+// ** the others query example **
 //     `*[_type == "post" && author->username
 //     in *[_type == "user" && username =="${username}"][0]
 //     .following[]->username]{

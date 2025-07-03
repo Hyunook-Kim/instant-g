@@ -8,6 +8,7 @@ export default function PostList() {
   // const { data: rawData } = useSWR("/api/post/raw");
   // console.log("@@raw data@@", rawData);
   const { data: posts, isLoading, error } = useSWR<SimplePost[]>("/api/post");
+  console.log("posts", posts);
 
   return (
     <ul>{posts && posts.map((post) => <li key={post.id}>{post.text}</li>)}</ul>
