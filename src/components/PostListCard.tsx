@@ -16,34 +16,41 @@ export default function PostListCard({ post }: Props) {
     post;
 
   return (
-    <>
-      <div>
-        <Avatar image={userImage} highlight />
-        <span>{username}</span>
+    <article className="rounded-md border border-gray-200 shadow-md">
+      <div className="flex items-center p-2">
+        <Avatar image={userImage} size="medium" highlight />
+        <span className="ml-2 font-bold text-gray-900">{username}</span>
       </div>
       <Image
+        className="aspect-square w-full object-cover"
         src={image}
         alt={`photo by ${username}`}
         width={500}
         height={500}
       />
-      <div>
+      <div className="my-2 flex justify-between px-4">
         <HeartIcon />
         <BookmarkIcon />
       </div>
-      <div>
-        <p>{`${likes?.length ?? 0} ${likes?.length > 1 ? "likes" : "like"}`}</p>
+      <div className="px-4 py-1">
+        <p className="mb-2 text-sm font-bold">{`${likes?.length ?? 0} ${likes?.length > 1 ? "likes" : "like"}`}</p>
         <p>
-          <span>{username}</span>
+          <span className="mr-1 font-bold">{username}</span>
           {text}
         </p>
-        <p>{parseDate(createdAt)}</p>
-        <form>
+        <p className="my-2 text-xs uppercase text-neutral-500">
+          {parseDate(createdAt)}
+        </p>
+        <form className="flex items-center border-t border-neutral-300">
           <SmileIcon />
-          <input type="text" placeholder="Add a comment..." />
-          <button>Post</button>
+          <input
+            className="ml-2 w-full border-none p-3 outline-none"
+            type="text"
+            placeholder="Add a comment..."
+          />
+          <button className="ml-2 font-bold text-sky-500">Post</button>
         </form>
       </div>
-    </>
+    </article>
   );
 }
