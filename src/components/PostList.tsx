@@ -2,9 +2,10 @@
 
 import { SimplePost } from "@/models/post";
 import React from "react";
-import { GridLoader } from "react-spinners";
 import useSWR from "swr";
 import PostListCard from "./PostListCard";
+import GridSpinner from "./ui/GridSpinner";
+import dynamic from "next/dynamic";
 
 export default function PostList() {
   // const { data: rawData } = useSWR("/api/post/raw");
@@ -15,7 +16,7 @@ export default function PostList() {
     <section>
       {isLoading && (
         <div className="mt-32 text-center">
-          <GridLoader color="red" />
+          <GridSpinner color="red" />
         </div>
       )}
       {
