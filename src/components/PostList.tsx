@@ -8,9 +8,7 @@ import GridSpinner from "./ui/GridSpinner";
 import dynamic from "next/dynamic";
 
 export default function PostList() {
-  // const { data: rawData } = useSWR("/api/post/raw");
-  // console.log("@@raw data@@", rawData);
-  const { data: posts, isLoading, error } = useSWR<SimplePost[]>("/api/post");
+  const { data: posts, isLoading, error } = useSWR<SimplePost[]>("/api/posts");
 
   return (
     <section>
