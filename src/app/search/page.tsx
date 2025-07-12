@@ -1,5 +1,6 @@
-import React from "react";
+import UserSearch from "@/components/UserSearch";
+import React, { useState } from "react";
 
-export default function page() {
-  return <div>search</div>;
+export default function SearchPage() {
+  return <UserSearch />;
 }
