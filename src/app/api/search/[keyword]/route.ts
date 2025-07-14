@@ -6,7 +6,6 @@ type Context = {
 };
 
 export async function GET(_: NextRequest, context: Context) {
-  console.log("route data", context.params.keyword);
   return searchUsers(context.params.keyword).then((data) =>
     NextResponse.json(data),
   );
