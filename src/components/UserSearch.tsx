@@ -1,6 +1,6 @@
 "use client";
 
-import { ProfileUser } from "@/models/user";
+import { SearchUser } from "@/models/user";
 import { useState } from "react";
 import useSWR from "swr";
 import GridSpinner from "./ui/GridSpinner";
@@ -14,7 +14,7 @@ export default function UserSearch() {
     data: users,
     isLoading,
     error,
-  } = useSWR<ProfileUser[]>(`/api/search/${debouncedKeyword}`);
+  } = useSWR<SearchUser[]>(`/api/search/${debouncedKeyword}`);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
