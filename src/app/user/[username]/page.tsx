@@ -8,8 +8,6 @@ type Props = {
 };
 
 export default async function UserPage({ params: { username } }: Props) {
-  // top: user profile, image, info(username, name, number)
-  // bottom: 3 tab ( posts, liked, bookmarks)
   const user = await getUserForProfile(username);
 
   if (!user) {
