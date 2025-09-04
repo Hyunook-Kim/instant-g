@@ -1,4 +1,4 @@
-import { AuthUser } from "@/models/User";
+import { AuthUser } from "@/models/user";
 import React from "react";
 import Avatar from "./Avatar";
 
