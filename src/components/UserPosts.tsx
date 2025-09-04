@@ -17,19 +17,19 @@ const tabs = [
 ];
 
 export default function UserPosts({ user: { username } }: Props) {
-  // /api/users/username/posts
-  // /api/users/username/saved
-  // /api/users/username/liked
-
   const [query, setQuery] = useState(tabs[0].type);
 
   return (
     <section>
-      <ul>
+      <ul className="flex justify-center uppercase">
         {tabs.map(({ type, icon }) => (
-          <li key={type} onClick={() => setQuery(type)}>
-            <button>{icon}</button>
-            <span>{type}</span>
+          <li
+            className={`mx-12 cursor-pointer border-black p-4 ${type === query && "border-t font-bold"}`}
+            key={type}
+            onClick={() => setQuery(type)}
+          >
+            <button className="scale-150 md:scale-100">{icon}</button>
+            <span className="hidden md:inline">{type}</span>
           </li>
         ))}
       </ul>
