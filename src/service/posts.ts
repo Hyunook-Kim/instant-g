@@ -120,3 +120,25 @@ export async function getSavedPostsOf(username: string) {
 // author._ref in *[_type == "user" && username == "${username}"]
 // .following[]._ref
 // ]
+
+export async function likePost(postId: string, userId: string) {
+  return client
+    .patch(postId)
+    .setIfMissing({ likes: [] })
+    .append("likes", [
+      {
+        _ref: userId,
+        _type: "reference",
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function dislikePost(postId: string, userId: string) {
+  return client
+    .patch(postId)
+    .unset([`likes[_ref=="${userId}"]`])
+    .commit();
+}
+
+// append와 unset에서 형식 왜 다른지 확인해보기. 내생각에 추가, 삭제이므로 비슷한형식으로 해야할텐데
