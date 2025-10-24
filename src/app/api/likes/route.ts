@@ -11,12 +11,12 @@ export async function PUT(req: NextRequest) {
     return new NextResponse("Authentication Error", { status: 401 });
   }
 
-  const { id, like } = await req.json();
-  if (!id || like === undefined) {
+  const { id, isLike } = await req.json();
+  if (!id || isLike === undefined) {
     return new NextResponse("Bad Request", { status: 400 });
   }
 
-  const request = like ? likePost : dislikePost;
+  const request = isLike ? likePost : dislikePost;
 
   return request(id, user.id)
     .then((res) => NextResponse.json(res))
