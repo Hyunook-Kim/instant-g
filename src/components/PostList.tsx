@@ -1,14 +1,12 @@
 "use client";
 
-import { SimplePost } from "@/models/post";
 import React from "react";
-import useSWR from "swr";
 import PostListCard from "./PostListCard";
 import GridSpinner from "./ui/GridSpinner";
-import dynamic from "next/dynamic";
+import usePosts from "@/hooks/usePosts";
 
 export default function PostList() {
-  const { data: posts, isLoading, error } = useSWR<SimplePost[]>("/api/posts");
+  const { posts, isLoading, error } = usePosts();
 
   return (
     <section>
