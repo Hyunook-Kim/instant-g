@@ -23,8 +23,10 @@ export async function GET(_: NextRequest, context: Context) {
   switch (query) {
     case "saved":
       request = getSavedPostsOf;
+      break;
     case "liked":
       request = getLikedPostsOf;
+      break;
   }
 
   return request(username).then((data) => NextResponse.json(data));
