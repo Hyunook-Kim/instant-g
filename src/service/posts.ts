@@ -147,3 +147,24 @@ export async function dislikePost(postId: string, userId: string) {
 }
 
 // append와 unset에서 형식 왜 다른지 확인해보기. 내생각에 추가, 삭제이므로 비슷한형식으로 해야할텐데
+
+export async function addComment(
+  postId: string,
+  userId: string,
+  comment: string,
+) {
+  return client
+    .patch(postId)
+    .setIfMissing({ comments: [] })
+    .append("comments", [
+      {
+        _type: "comment",
+        author: {
+          _ref: userId,
+          _type: "reference",
+        },
+        comment: comment,
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+}
