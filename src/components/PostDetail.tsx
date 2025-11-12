@@ -1,12 +1,13 @@
 "use client";
 
-import { FullPost, SimplePost } from "@/models/post";
+import { SimplePost } from "@/models/post";
 import Image from "next/image";
-import useSWR from "swr";
 import PostUserAvatar from "./PostUserAvatar";
 import ActionBar from "./ActionBar";
 import CommentForm from "./CommentForm";
 import Avatar from "./Avatar";
+import useFullPost from "@/hooks/useFullPost";
+import useMe from "@/hooks/useMe";
 
 type Props = {
   post: SimplePost;
@@ -14,9 +15,19 @@ type Props = {
 
 export default function PostDetail({ post }: Props) {
   const { id, userImage, username, image, createdAt, likes } = post;
-  const { data } = useSWR<FullPost>(`/api/posts/${id}`);
+  const { post: data, postComment } = useFullPost(id);
+  const { homeUser } = useMe();
+
   const comments = data?.comments;
-  const handlePostComment = (comment: string) => {};
+
+  const handlePostComment = (comment: string) => {
+    homeUser &&
+      postComment({
+        comment,
+        username: homeUser.username,
+        image: homeUser.image,
+      });
+  };
 
   return (
     <section className="flex h-full w-full">
