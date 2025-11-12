@@ -1,6 +1,6 @@
 "use client";
 
-import { SimplePost } from "@/models/post";
+import { Comment, SimplePost } from "@/models/post";
 import Image from "next/image";
 import PostUserAvatar from "./PostUserAvatar";
 import ActionBar from "./ActionBar";
@@ -16,17 +16,11 @@ type Props = {
 export default function PostDetail({ post }: Props) {
   const { id, userImage, username, image, createdAt, likes } = post;
   const { post: data, postComment } = useFullPost(id);
-  const { homeUser } = useMe();
 
   const comments = data?.comments;
 
-  const handlePostComment = (comment: string) => {
-    homeUser &&
-      postComment({
-        comment,
-        username: homeUser.username,
-        image: homeUser.image,
-      });
+  const handlePostComment = (comment: Comment) => {
+    postComment(comment);
   };
 
   return (
@@ -61,8 +55,7 @@ export default function PostDetail({ post }: Props) {
               ),
             )}
         </ul>
-        <ActionBar post={post} />
-        <CommentForm onPostComment={handlePostComment} />
+        <ActionBar post={post} onComment={handlePostComment} />
       </div>
     </section>
   );
