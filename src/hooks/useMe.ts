@@ -9,6 +9,13 @@ async function updateBookmark(postId: string, isBookmark: boolean) {
   }).then((res) => res.json());
 }
 
+async function updateFollow(targetId: string, isFollow: boolean) {
+  return fetch("/api/follow", {
+    method: "PUT",
+    body: JSON.stringify({ id: targetId, isFollow }),
+  }).then((res) => res.json());
+}
+
 export default function useMe() {
   const {
     data: homeUser,
@@ -39,5 +46,9 @@ export default function useMe() {
     [homeUser, mutate],
   );
 
-  return { homeUser, isLoading, error, setBookmark };
+  const toggleFollow = (targetId: string, isFollow: boolean) => {
+    return mutate(updateFollow(targetId, isFollow), { populateCache: false });
+  };
+
+  return { homeUser, isLoading, error, setBookmark, toggleFollow };
 }
