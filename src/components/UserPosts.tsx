@@ -12,8 +12,8 @@ type Props = {
 };
 const tabs = [
   { type: "posts", icon: <PostIcon /> },
-  { type: "saved", icon: <BookmarkIcon /> },
-  { type: "liked", icon: <HeartIcon /> },
+  { type: "saved", icon: <BookmarkIcon className="h-3 w-3" /> },
+  { type: "liked", icon: <HeartIcon className="h-3 w-3" /> },
 ];
 
 export default function UserPosts({ user: { username } }: Props) {
