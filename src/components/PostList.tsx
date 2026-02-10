@@ -6,7 +6,7 @@ import GridSpinner from "./ui/GridSpinner";
 import usePosts from "@/hooks/usePosts";
 
 export default function PostList() {
-  const { posts, isLoading, error } = usePosts();
+  const { posts, isLoading } = usePosts();
 
   return (
     <section>

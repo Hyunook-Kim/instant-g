@@ -26,11 +26,13 @@ export async function getFollowingPostsOf(username: string) {
   return client
     .fetch(
       `
-    *[_type == "post" && author->username == "${username}" 
+    *[_type == "post" && author->username == "${username}"
       || author._ref in *[_type == "user" && username == "${username}"][0]
          .following[]._ref]
       | order(_createdAt desc){${simplePostProjection}}
     `,
+      undefined,
+      { cache: "no-store" },
     )
     .then(mapPosts);
   // .then((posts) =>
@@ -55,6 +57,8 @@ export async function getPost(id: string) {
     "createdAt": _createdAt
   }
     `,
+      undefined,
+      { cache: "no-store" },
     )
     .then((post) => ({ ...post, image: urlFor(post.image) }));
 }
@@ -66,6 +70,8 @@ export async function getPostsOf(username: string) {
     | order(_createdAt desc){
       ${simplePostProjection}
     }`,
+      undefined,
+      { cache: "no-store" },
     )
     .then(mapPosts);
 }

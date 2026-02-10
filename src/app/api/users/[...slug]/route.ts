@@ -17,7 +17,6 @@ export async function GET(_: NextRequest, context: Context) {
   }
 
   const [username, query] = slug;
-  // console.log("query", query);
 
   let request = getPostsOf;
   switch (query) {
