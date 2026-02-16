@@ -18,7 +18,7 @@ import Avatar from "./Avatar";
 const menus = [
   { href: "/", icon: <HomeIcon />, activeIcon: <HomeFillIcon /> },
   { href: "/search", icon: <SearchIcon />, activeIcon: <SearchFillIcon /> },
-  { href: "/post", icon: <NewIcon />, activeIcon: <NewFillIcon /> },
+  { href: "/new", icon: <NewIcon />, activeIcon: <NewFillIcon /> },
 ];
 
 export default function Navbar() {
