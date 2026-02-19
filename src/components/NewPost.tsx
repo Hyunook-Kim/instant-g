@@ -5,6 +5,7 @@ import PostUserAvatar from "./PostUserAvatar";
 import FilesIcon from "./ui/icons/FilesIcon";
 import Button from "./ui/Button";
 import { useState } from "react";
+import Image from "next/image";
 
 type Props = {
   user: AuthUser;
@@ -47,9 +48,9 @@ export default function NewPost({ user: { username, image } }: Props) {
   };
 
   return (
-    <section>
+    <section className="mt-6 flex w-full max-w-xl flex-col items-center">
       <PostUserAvatar image={image ?? ""} username={username} />
-      <form>
+      <form className="mt-2 flex w-full flex-col">
         <input
           className="hidden"
           id="input-upload"
@@ -59,16 +60,35 @@ export default function NewPost({ user: { username, image } }: Props) {
           onChange={onInputChange}
         />
         <label
+          className={`flex h-60 w-full flex-col items-center justify-center ${!file && "border-2 border-dashed border-sky-500"} `}
           htmlFor="input-upload"
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
-          <FilesIcon />
-          <p>DND image here or click</p>
+          {isDragging && (
+            <div className="pointer-events-none absolute inset-0 z-10 bg-sky-500/20" />
+          )}
+          {file ? (
+            <div className="relative aspect-square w-full">
+              <Image
+                className="object-cover"
+                src={URL.createObjectURL(file)}
+                alt="local file"
+                fill
+                sizes="650px"
+              />
+            </div>
+          ) : (
+            <div className="pointer-events-none flex flex-col items-center">
+              <FilesIcon />
+              <p>Drag and Drop your image here or click</p>
+            </div>
+          )}
         </label>
         <textarea
+          className="border border-neutral-300 text-lg outline-none"
           id="input-text"
           name="text"
           required
