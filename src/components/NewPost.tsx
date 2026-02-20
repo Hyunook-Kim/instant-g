@@ -4,8 +4,10 @@ import { AuthUser } from "@/models/user";
 import PostUserAvatar from "./PostUserAvatar";
 import FilesIcon from "./ui/icons/FilesIcon";
 import Button from "./ui/Button";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, DragEvent, useRef, useState } from "react";
 import Image from "next/image";
+import GridSpinner from "./ui/GridSpinner";
+import { useRouter } from "next/navigation";
 
 type Props = {
   user: AuthUser;
@@ -14,13 +16,16 @@ type Props = {
 export default function NewPost({ user: { username, image } }: Props) {
   const [file, setFile] = useState<File>();
   const [isDragging, setIsDragging] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>();
+  const textRef = useRef<HTMLTextAreaElement>(null);
+  const router = useRouter();
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target?.files;
     if (files && files[0]) {
       setFile(files[0]);
-      console.log("onChange", files[0]);
     }
   };
 
@@ -43,14 +48,44 @@ export default function NewPost({ user: { username, image } }: Props) {
     const files = e.dataTransfer?.files;
     if (files && files[0]) {
       setFile(files[0]);
-      console.log("drop", files[0]);
     }
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!file) return;
+
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("text", textRef.current?.value ?? "");
+
+    fetch("/api/posts/", { method: "POST", body: formData })
+      .then((res) => {
+        if (!res.ok) {
+          setError(`${res.status} ${res.statusText}`);
+          return;
+        }
+        router.push("/");
+      })
+      .catch((err) => setError(err.toString()))
+      .finally(() => setIsLoading(false));
   };
 
   return (
     <section className="mt-6 flex w-full max-w-xl flex-col items-center">
+      {isLoading && (
+        <div className="absolute inset-0 z-20 bg-sky-500/20 pt-[30%] text-center">
+          <GridSpinner />
+        </div>
+      )}
+      {error && (
+        <p className="mb-4 w-full bg-red-100 p-4 text-center font-bold text-red-600">
+          {error}
+        </p>
+      )}
       <PostUserAvatar image={image ?? ""} username={username} />
-      <form className="mt-2 flex w-full flex-col">
+      <form className="mt-2 flex w-full flex-col" onSubmit={handleSubmit}>
         <input
           className="hidden"
           id="input-upload"
@@ -60,7 +95,8 @@ export default function NewPost({ user: { username, image } }: Props) {
           onChange={onInputChange}
         />
         <label
-          className={`flex h-60 w-full flex-col items-center justify-center ${!file && "border-2 border-dashed border-sky-500"} `}
+          className={`flex h-60 w-full flex-col items-center justify-center overflow-hidden ${!file && "border-2 border-dashed border-sky-500"} `}
+          // className={`flex h-60 w-full flex-col items-center justify-center ${!file && "border-2 border-dashed border-sky-500"} `}
           htmlFor="input-upload"
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
@@ -94,6 +130,7 @@ export default function NewPost({ user: { username, image } }: Props) {
           required
           rows={10}
           placeholder="Write a caption..."
+          ref={textRef}
         />
         <Button text="Publish" onClick={() => {}} />
       </form>
