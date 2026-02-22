@@ -164,13 +164,46 @@ export async function addComment(
     .setIfMissing({ comments: [] })
     .append("comments", [
       {
-        _type: "comment",
+        comment,
         author: {
           _ref: userId,
           _type: "reference",
         },
-        comment: comment,
       },
     ])
     .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function addPost({
+  userId,
+  file,
+  comment,
+}: {
+  userId: string;
+  file: Blob;
+  comment: string;
+}) {
+  const imageAsset = await client.assets.upload("image", file);
+
+  return client.create(
+    {
+      _type: "post",
+      author: {
+        _ref: userId,
+      },
+      photo: {
+        asset: {
+          _ref: imageAsset._id,
+        },
+      },
+      likes: [],
+      comments: [
+        {
+          comment,
+          author: { _ref: userId, _type: "reference" },
+        },
+      ],
+    },
+    { autoGenerateArrayKeys: true },
+  );
 }
